@@ -35,13 +35,28 @@ export default class Home extends React.Component {
     };
   }
 
+  logout() {
+    AsyncStorage.removeItem('token')
+      .then(() => {
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'Splash' })],
+        });
+        this.props.navigation.dispatch(resetAction);
+      })
+      .catch(err => console.error(err))
+  }
+
   render() {
     return (
-      <ListView
-        style={styles.container}
-        dataSource={this.state.dataSource}
-        renderRow={(data) => <Row {...data} />}
-      />
+      <View>
+        <Text>Hello</Text>
+        <Button
+          title="Logout"
+          color="red"
+          onPress={this.logout.bind(this)}
+        />
+      </View>
     )
   }
 }

@@ -132,6 +132,7 @@ export default class Login extends React.Component {
           disabled={this.state.loading}
           title="Sign In"
           onPress={this.login.bind(this)}
+          color="#1F2F43"
           style={styles.button}
         />
         
