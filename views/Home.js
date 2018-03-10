@@ -37,11 +37,7 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <ListView
-        style={styles.container}
-        dataSource={this.state.dataSource}
-        renderRow={(data) => <Row {...data} />}
-      />
+      <Text>HoMe</Text>
     )
   }
 }
