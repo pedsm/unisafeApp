@@ -21,7 +21,7 @@ export default class Login extends React.Component {
     this.state = {
       phone: '',
       name: '',
-      pass: '',
+      initials: '',
       loading: false,
       showModal: false,
       msg: ""
@@ -29,6 +29,7 @@ export default class Login extends React.Component {
   }
 
   login() {
+    console.log(this.state)
     if(this.state.loading) {
       // Don't do unnecesary work
       return
@@ -36,13 +37,13 @@ export default class Login extends React.Component {
     console.log('trying to login')
     console.log(`${url}user`)
     this.setState((prev, props) => Object.assign(prev, {loading:true}))
-    fetch(`${url}signin`, {
+    fetch(`${url}user`, {
       method: 'post',
       headers: new Headers({
-        'Content-Type': 'application/json'
+        'content-type': 'application/json'
       }),
       body: JSON.stringify({
-        phone: this.state.user,
+        phone: this.state.phone,
         name: this.state.name,
         initials: this.state.initials
       })
@@ -51,20 +52,16 @@ export default class Login extends React.Component {
       .then((json) => {
         this.setState((prev, props) => Object.assign(prev, { loading: false }))
         console.log(json)
-        if (json.token != null) {
-          AsyncStorage.setItem('token', json.token)
+        
+          AsyncStorage.setItem('token', this.state.phone)
             .then(() => {
               this.props.navigation.push('Splash')
             })
             .catch(err => console.error(err))
-        } else {
-          //TODO show error
-          console.log(json)
-          this.switchModal(json.error == null ? "Unknown error" : json.error)
-        }
+        
       })
       .catch(err => console.error(err))
-   
+      
   }
   
   switchModal(iMsg) {
