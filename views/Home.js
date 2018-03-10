@@ -13,6 +13,7 @@ import {
   ListView
 } from 'react-native'
 import Modal from 'react-native-modal'
+import { NavigationActions } from 'react-navigation'
 import { url } from '../configs'
 
 const Row = (props) => (
