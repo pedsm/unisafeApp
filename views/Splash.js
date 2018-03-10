@@ -20,7 +20,7 @@ export default class Splash extends React.Component {
                     // this.props.navigation.push('Login')
                     this.sendToScreen('Login')
                 } else {
-                    console.log('Token found, sending user to calendar view')
+                    console.log('Token found, sending user to calendar view' + token)
                     // this.props.navigation.push('Home')
                     this.sendToScreen('Home')
                 }
