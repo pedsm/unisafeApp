@@ -1,4 +1,6 @@
 import { StackNavigator } from 'react-navigation'
+import React from 'react'
+import { Image } from 'react-native'
 
 import Login from './views/Login'
 import Signup from './views/Signup'
@@ -27,7 +29,19 @@ export default StackNavigator({
   },
   Home: {
     navigationOptions: {
-      title: 'Home',
+      headerTitle:(
+        <Image style={{ 
+          alignSelf: 'center',
+          width: '40%',
+          resizeMode: 'contain',
+          marginRight: "auto",
+          marginLeft: "auto",
+         }} source={require("./assets/logo-big.png")} />
+      ),
+      headerStyle: {
+        backgroundColor: '#fafafa',
+        alignItems: 'center'
+      }
     },
     screen: Home
   },

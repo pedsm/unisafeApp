@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "icon": "./assets/icon_ios.png",
+      "icon": "./assets/icon_ios.jpg",
       "bundleIdentifier": "com.nightowls.unisave"
     },
     "android": {

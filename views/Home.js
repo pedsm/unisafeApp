@@ -49,14 +49,17 @@ export default class Home extends React.Component {
   }
 
   render() {
+    const { header, container, logo } = styles
     return (
       <View>
-        <Text>Hello</Text>
-        <Button
-          title="Logout"
-          color="red"
-          onPress={this.logout.bind(this)}
-        />
+        <View style={container}>
+          <Text>Hello</Text>
+          <Button
+            title="Logout"
+            color="red"
+            onPress={this.logout.bind(this)}
+          />
+        </View>
       </View>
     )
   }
@@ -64,11 +67,18 @@ export default class Home extends React.Component {
 
 
 const styles = StyleSheet.create({
+  logo: {
+    width: '90%',
+    height: 50,
+    resizeMode: 'contain'
+  },
+  header: {
+    padding: 20,
+    backgroundColor: '#eee',
+    alignItems: 'center'
+  },
   container: {
-    flex: 1,
     padding: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   text: {
     marginLeft: 12,
