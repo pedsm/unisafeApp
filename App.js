@@ -7,6 +7,7 @@ import Signup from './views/Signup'
 import Splash from './views/Splash'
 import Settings from './views/Settings'
 import Home from './views/Home'
+import Invite from './views/Invite'
 
 export default StackNavigator({
   Splash: {
@@ -40,7 +41,6 @@ export default StackNavigator({
       ),
       headerStyle: {
         backgroundColor: '#fafafa',
-        alignItems: 'center'
       }
     },
     screen: Home
@@ -50,6 +50,23 @@ export default StackNavigator({
       title: 'Settings'
     },
     screen: Settings,
+  },
+  Invite: {
+    navigationOptions: {
+      headerTitle:(
+        <Image style={{ 
+          alignSelf: 'center',
+          width: '40%',
+          resizeMode: 'contain',
+          marginRight: "auto",
+          marginLeft: "auto",
+         }} source={require("./assets/logo-big.png")} />
+      ),
+      headerStyle: {
+        backgroundColor: '#fafafa',
+      }
+    },
+    screen: Invite
   }
 
 })
