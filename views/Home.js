@@ -19,14 +19,88 @@ import Avatar from '../components/avatar'
 import RowEntry from '../components/rowEntry'
 import { url } from '../configs'
 
-const Row = (props) => (
-  <View style={styles.container}>
-    <Image source={{ uri: 'assets/icon.png' }} style={styles.photo} />
-    <Text style={styles.text}>
-      {`${props.name} ${props.name}`}
-    </Text>
-  </View>
-);
+
+async function showFirstContactAsync() {
+  // Ask for permission to query contacts.
+  console.log('looking for contacts...');
+  const permission = await Expo.Permissions.askAsync(Expo.Permissions.CONTACTS);
+  if (permission.status !== 'granted') {
+    // Permission was denied...
+    return;
+  }
+  const contacts = await Expo.Contacts.getContactsAsync({
+    fields: [
+      Expo.Contacts.PHONE_NUMBERS,
+      //Expo.Contacts.EMAILS,
+    ],
+    pageSize: 250, // Number of contacts to process
+    pageOffset: 0,
+  });
+
+
+  AsyncStorage.getItem('token')
+    .then((token) => {
+      ////////
+      if (contacts.total > 0) {
+        //console.log(contacts)
+        contacts.data.map((contact) => {
+          // console.log(contact.name);
+
+          if (contact.phoneNumbers.length > 0) {
+            contact.phoneNumbers.map((number) => {
+              //  console.log(  number.digits);
+              if (number.countryCode == 'gb' && (number.digits.substr(0, 3) == '+44') || (number.digits.substr(0, 2) == '44') || (number.digits.substr(0, 1) == '0')) { // check phone thinks its a UK phone no
+
+                processedNumber = number.digits;
+                if (processedNumber.substr(0, 3) == '+44') { // replace +44 with 0
+                  processedNumber = '0' + processedNumber.substr(3);
+                }
+                // Request sync for this contact with this number
+
+                fetch(`${url}friend`, {
+                  method: 'post',
+                  headers: new Headers({
+                    'content-type': 'application/json'
+                  }),
+                  body: JSON.stringify({
+                    phoneA: token, // users phone number
+                    phoneB: processedNumber, // contact phone number
+
+                  })
+                })
+                  .then((res) => res.json())
+                  .then((json) => {
+
+                    console.log(json)
+
+
+                  })
+                  .catch(err => console.error(err))
+
+              }
+
+
+            })
+          }
+          //console.log(contact.phoneNumbers);
+
+        });
+        /*console.log(
+              'Your first contact is...' + 
+              'Name: '+contacts.data[0].name+'\n' +
+              'Phone numbers: '+JSON.stringify(contacts.data[0].phoneNumbers)+
+              'Emails: '+JSON.stringify(contacts.data[0].emails)
+            );*/
+      }
+      ////////
+    })
+    .catch(err => console.error(err))
+
+
+
+
+
+}
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -46,6 +120,11 @@ export default class Home extends React.Component {
         token: "",
       }
     };
+
+  }
+
+  componentWillMount() {
+    this.syncContacts.bind(this)
   }
 
   async fetchUser() {
@@ -82,12 +161,16 @@ export default class Home extends React.Component {
       .catch(err => console.error(err))
   }
 
+  syncContacts() {
+    showFirstContactAsync();
+  }
+
   async addGroup() {
     const { postcode } = this.state
     const response = await fetch(`https://api.postcodes.io/postcodes/${postcode}/validate`)
     const json = await response.json()
     const valid = json.result
-    if(valid  === false) {
+    if (valid === false) {
       console.log(`${postcode} is not a valid postcode`)
       this.setState(prev => Object.assign(prev, { error: true }))
       return
@@ -106,31 +189,31 @@ export default class Home extends React.Component {
     const apiJson = await apiResponse.json()
     console.log(`Move to next screen ${JSON.stringify(apiJson)}`)
     this.switchModal.bind(this)()
-    this.props.navigation.push('Invite', {groupId: apiJson.groupId})
+    this.props.navigation.push('Invite', { groupId: apiJson.groupId })
   }
 
   switchModal() {
-        this.setState((prev, _) => {
-          const state = { ...prev }
-          state.showModal = !prev.showModal
-          return state
-        })
-      }
+    this.setState((prev, _) => {
+      const state = { ...prev }
+      state.showModal = !prev.showModal
+      return state
+    })
+  }
 
   componentDidMount() {
-        this.fetchUser.bind(this)()
+    this.fetchUser.bind(this)()
     this.fetchGroups.bind(this)()
-      }
+  }
 
   render() {
-        const { header, container, logo } = styles
+    const { header, container, logo } = styles
     const { user, groups } = this.state
-    return(
+    return (
       <Fragment>
-            <Modal
-              sytle={styles.bottomModal}
-              isVisible={this.state.showModal}
-            >
+        <Modal
+          sytle={styles.bottomModal}
+          isVisible={this.state.showModal}
+        >
           <View style={styles.modalView}>
             <Text style={styles.title}>Add a group</Text>
             <Text style={{ marginBottom: 20 }}>Please enter your postcode:</Text>

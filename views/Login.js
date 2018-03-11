@@ -13,6 +13,8 @@ import {
 } from 'react-native'
 import Modal from 'react-native-modal'
 import { url } from '../configs'
+import { Permissions, Notifications } from 'expo';
+
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -22,10 +24,43 @@ export default class Login extends React.Component {
       phone: '',
       name: '',
       initials: '',
-      loading: false,
+      nToken: '',
+      loading: true,
       showModal: false,
       msg: ""
     }
+    this.registerForPushNotificationsAsync();
+  }
+
+
+  async registerForPushNotificationsAsync() {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+  
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== 'granted') {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+  
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== 'granted') {
+      return;
+    }
+  
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
+    console.log(`Notifications token is `)
+    console.log(token); 
+    this.state.nToken = token;
+    this.setState((prev, props) => Object.assign(prev, { loading: false }))
+    // POST the token to your backend server from where you can retrieve it to send push notifications.
+    
   }
 
   login() {
@@ -36,17 +71,20 @@ export default class Login extends React.Component {
     }
     console.log('trying to login')
     console.log(`${url}user`)
+    var user = {
+      phone: this.state.phone,
+      name: this.state.name,
+      initials: this.state.initials,
+      token: this.state.nToken
+    };
+    console.log(user);
     this.setState((prev, props) => Object.assign(prev, {loading:true}))
     fetch(`${url}user`, {
       method: 'post',
       headers: new Headers({
         'content-type': 'application/json'
       }),
-      body: JSON.stringify({
-        phone: this.state.phone,
-        name: this.state.name,
-        initials: this.state.initials
-      })
+      body: JSON.stringify(user)
     })
       .then((res) => res.json())
       .then((json) => {
