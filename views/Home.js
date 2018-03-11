@@ -45,7 +45,7 @@ async function showFirstContactAsync() {
                     if(contact.phoneNumbers.length > 0) {
                       contact.phoneNumbers.map((number)=>{
                       //  console.log(  number.digits);
-                      if(number.countryCode == 'gb') { // check phone thinks its a UK phone no
+                      if(number.countryCode == 'gb' && (number.digits.substr(0,3) == '+44')||(number.digits.substr(0,2) == '44')||(number.digits.substr(0,1) == '0')) { // check phone thinks its a UK phone no
 
                               processedNumber = number.digits;
                               if(processedNumber.substr(0,3)=='+44') { // replace +44 with 0
