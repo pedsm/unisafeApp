@@ -45,6 +45,23 @@ export default StackNavigator({
     },
     screen: Home
   },
+  Group: {
+    navigationOptions: {
+      headerTitle:(
+        <Image style={{ 
+          alignSelf: 'center',
+          width: '40%',
+          resizeMode: 'contain',
+          marginRight: "auto",
+          marginLeft: "auto",
+         }} source={require("./assets/logo-big.png")} />
+      ),
+      headerStyle: {
+        backgroundColor: '#fafafa',
+      }
+    },
+    screen: Group
+  },
   Settings: {
     navigationOptions: {
       title: 'Settings'
