@@ -5,7 +5,6 @@ import {
 } from 'react-native'
 
 export default function RowEntry(props) {
-    console.log(props)
     const { date, createdBy, id } = props.group
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     const dateObj = new Date(parseInt(date))

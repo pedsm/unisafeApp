@@ -94,7 +94,7 @@ export default class Home extends React.Component {
     }
 
     const apiResponse = await fetch(`${url}group`, {
-      method: 'post',
+      method: 'POST',
       headers: new Headers({
         'content-type': 'application/json'
       }),
@@ -103,7 +103,7 @@ export default class Home extends React.Component {
         postcode
       })
     })
-    const apiJson = apiResponse.json()
+    const apiJson = await apiResponse.json()
     console.log(`Move to next screen ${JSON.stringify(apiJson)}`)
     this.switchModal.bind(this)()
     this.props.navigation.push('Invite', {groupId: apiJson.groupId})
