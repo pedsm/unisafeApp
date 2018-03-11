@@ -25,7 +25,7 @@ export default class Login extends React.Component {
       name: '',
       initials: '',
       nToken: '',
-      loading: false,
+      loading: true,
       showModal: false,
       msg: ""
     }
@@ -56,8 +56,9 @@ export default class Login extends React.Component {
     // Get the token that uniquely identifies this device
     let token = await Notifications.getExpoPushTokenAsync();
     console.log(`Notifications token is `)
-    console.log(token);
+    console.log(token); 
     this.state.nToken = token;
+    this.setState((prev, props) => Object.assign(prev, { loading: false }))
     // POST the token to your backend server from where you can retrieve it to send push notifications.
     
   }
