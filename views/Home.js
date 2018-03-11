@@ -16,6 +16,7 @@ import Modal from 'react-native-modal'
 import { NavigationActions } from 'react-navigation'
 import { url } from '../configs'
 
+
 async function showFirstContactAsync() {
   // Ask for permission to query contacts.
   console.log('looking for contacts...');
@@ -98,6 +99,9 @@ async function showFirstContactAsync() {
   
 }
 
+ 
+
+
 export default class Home extends React.Component {
   constructor(props) {
     super(props)
@@ -107,7 +111,7 @@ export default class Home extends React.Component {
     this.state = {
       groups: ds.cloneWithRows([{name:'group 1'}, {name:'group 2'},{name:'group 3'}]),
     };
-   
+    
   }
 
   logout() {
