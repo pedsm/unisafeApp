@@ -165,6 +165,10 @@ export default class Home extends React.Component {
     showFirstContactAsync();
   }
 
+  testGroup() {
+    this.props.navigation.push('Group', { groupId: 1234})
+  }
+
   async addGroup() {
     const { postcode } = this.state
     const response = await fetch(`https://api.postcodes.io/postcodes/${postcode}/validate`)
@@ -269,6 +273,11 @@ export default class Home extends React.Component {
               title="Logout"
               color="red"
               onPress={this.logout.bind(this)}
+            />
+            <Button
+              title="Test Group"
+              color="red"
+              onPress={this.testGroup.bind(this)}
             />
           </View>
         </View>

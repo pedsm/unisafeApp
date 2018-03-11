@@ -41,7 +41,7 @@ export default class Group extends React.Component {
   }
 
   componentWillMount() {
-    this.syncContacts.bind(this)
+    
   }
 
  
@@ -59,8 +59,14 @@ export default class Group extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchUser.bind(this)()
-    this.fetchGroups.bind(this)()
+    this.fetchGroup.bind(this)()
+    this.updateSafe.bind(this)()
+    this.emergency.bind(this)()
+    this.startTracking.bind(this)()
+  }
+
+  startTracking() {
+
   }
 
   updateSafe() {
@@ -87,15 +93,6 @@ export default class Group extends React.Component {
           </View>
         </Modal>
         <View>
-          <View style={header}>
-            <View>
-              <Avatar>{user.initials}</Avatar>
-            </View>
-            <View style={{ padding: 20 }}>
-              <Text style={{ fontSize: 18 }}>{user.name}</Text>
-              <Text style={{ color: '#333' }}>{user.phone}</Text>
-            </View>
-          </View>
           
           <FlatList
             style={{}}
