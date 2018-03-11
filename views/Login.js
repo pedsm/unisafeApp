@@ -29,10 +29,11 @@ export default class Login extends React.Component {
       showModal: false,
       msg: ""
     }
+    this.registerForPushNotificationsAsync();
   }
 
 
-  async registerForPushNotificationsAsync(cb) {
+  async registerForPushNotificationsAsync() {
     const { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
@@ -54,18 +55,14 @@ export default class Login extends React.Component {
   
     // Get the token that uniquely identifies this device
     let token = await Notifications.getExpoPushTokenAsync();
-    console.log(`Notifications token is ${token}`)
+    console.log(`Notifications token is `)
+    console.log(token);
     this.state.nToken = token;
     // POST the token to your backend server from where you can retrieve it to send push notifications.
-    this.login();
+    
   }
 
   login() {
-    this.registerForPushNotificationsAsync();
-    this.registerAccount();
-  }
-
-  registerAccount() {
     console.log(this.state)
     if(this.state.loading) {
       // Don't do unnecesary work
