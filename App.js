@@ -8,6 +8,7 @@ import Splash from './views/Splash'
 import Settings from './views/Settings'
 import Home from './views/Home'
 import Invite from './views/Invite'
+import Group from './views/Group'
 
 export default StackNavigator({
   Splash: {

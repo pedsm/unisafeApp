@@ -19,7 +19,7 @@ import Avatar from '../components/avatar'
 import RowEntry from '../components/rowEntry'
 import { url } from '../configs'
 
-export default class Home extends React.Component {
+export default class Group extends React.Component {
   constructor(props) {
     super(props)
 
